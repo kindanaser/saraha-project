@@ -14,12 +14,12 @@ export const signup = async (req,res)=>{
    if(!newUser){
       return res.status(400).json({message:"error while create user !!"})
    } 
-   const token = await jwt.sign({email},process.env.CONFIRMEMAILTOKEN,{expiresIn:60*1});
+   const token = await jwt.sign({email},process.env.CONFIRMEMAILTOKEN,{expiresIn:60*5});
    const refreshToken = await jwt.sign({email},process.env.CONFIRMEMAILTOKEN,{expiresIn:60*60*24*30});
    const html = `<div>
    <h2>Register Email</h2>
    <p>Please confirm your email !!</p>
-   <a href='${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}'>Confirm Email</a>
+   <a href='${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}'>Confirm Email</a><br />
    <a href='${req.protocol}://${req.headers.host}/auth/confirmEmail/${refreshToken}'>Resend to confirm email</a>
    </div>`;
    await sendEmail(email,`Hello ${userName}`,html);
